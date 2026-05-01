@@ -1,9 +1,50 @@
 import Link from "next/link";
-import { CALCULATORS, CATEGORIES, getByCategory } from "@/lib/calculators";
+import {
+  CALCULATORS,
+  CATEGORIES,
+  getByCategory,
+  getBySlug,
+  type Calculator,
+} from "@/lib/calculators";
 import { RECIPES } from "@/lib/recipes";
 import ThemeBody from "@/components/ThemeBody";
+import { getTopTrending } from "@/lib/telemetry";
 
-export default function Home() {
+// Re-render the homepage every 60s so trending data stays fresh
+export const revalidate = 60;
+
+interface TrendingItem {
+  calc: Calculator;
+  views: number;
+}
+
+function formatViews(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M views`;
+  if (n >= 1_000) return `${(n / 1_000).toFixed(1)}k views`;
+  if (n === 1) return "1 view";
+  return `${n} views`;
+}
+
+export default async function Home() {
+  // Pull real trending data from the telemetry layer.
+  // While view counts accumulate (or if KV isn't yet configured), we fall back
+  // to calculators marked `trending: true` so the widget is never empty.
+  const liveTrending = await getTopTrending(5);
+
+  const liveItems: TrendingItem[] = liveTrending
+    .map((row) => {
+      const calc = getBySlug(row.slug);
+      return calc ? { calc, views: row.views } : null;
+    })
+    .filter((x): x is TrendingItem => x !== null);
+
+  const trendingItems: TrendingItem[] =
+    liveItems.length > 0
+      ? liveItems
+      : CALCULATORS.filter((c) => c.trending)
+          .slice(0, 5)
+          .map((calc) => ({ calc, views: 0 }));
+
   return (
     <>
       <ThemeBody theme="country" />
@@ -60,44 +101,20 @@ export default function Home() {
           <div className="trending-box">
             <div className="trending-head">
               <span>🔥 Trending Now</span>
-              <span>Updated live</span>
+              <span>{liveItems.length > 0 ? "Live" : "Featured"}</span>
             </div>
             <ol className="trending-list">
-              <li>
-                <span className="rank">1</span>
-                <span className="t-title">
-                  <Link href="/pie-dish">Pie Dish Berry Calculator</Link>
-                </span>
-                <span className="t-views">48.2k/day</span>
-              </li>
-              <li>
-                <span className="rank">2</span>
-                <span className="t-title">
-                  <Link href="/bathtub">Bathtub Fill Calculator</Link>
-                </span>
-                <span className="t-views">19.7k/day</span>
-              </li>
-              <li>
-                <span className="rank">3</span>
-                <span className="t-title">
-                  <Link href="/muffin-scaler">Muffin Berry Density</Link>
-                </span>
-                <span className="t-views">14.1k/day</span>
-              </li>
-              <li>
-                <span className="rank">4</span>
-                <span className="t-title">
-                  <Link href="/median-berry">Cup → Berry Converter</Link>
-                </span>
-                <span className="t-views">11.9k/day</span>
-              </li>
-              <li>
-                <span className="rank">5</span>
-                <span className="t-title">
-                  <Link href="/mouth-capacity">How Many Bs Until Full?</Link>
-                </span>
-                <span className="t-views">8.3k/day</span>
-              </li>
+              {trendingItems.map((item, i) => (
+                <li key={item.calc.slug}>
+                  <span className="rank">{i + 1}</span>
+                  <span className="t-title">
+                    <Link href={`/${item.calc.slug}`}>{item.calc.short}</Link>
+                  </span>
+                  <span className="t-views">
+                    {item.views > 0 ? formatViews(item.views) : "Featured"}
+                  </span>
+                </li>
+              ))}
             </ol>
           </div>
         </div>

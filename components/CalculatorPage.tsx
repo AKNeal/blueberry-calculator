@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { CALCULATORS, type Calculator } from "@/lib/calculators";
+import PageViewTracker from "@/components/PageViewTracker";
 
 interface Props {
   calc: Calculator;
@@ -18,6 +19,7 @@ export default function CalculatorPage({ calc, usageCount, tags = [], children }
 
   return (
     <div className="main-layout">
+      <PageViewTracker slug={calc.slug} />
       <div>
         <div className="ad-banner-wrap" style={{ padding: 0, marginBottom: 18 }}>
           <div className="ad-slot">

@@ -57,6 +57,39 @@ npm run dev
 
 Visit http://localhost:3000
 
+## Telemetry & Trending widget
+
+Real page-view counters power the homepage's "Trending Now" widget.
+
+- **Page-view tracking** is wired through `<PageViewTracker slug="..." />`,
+  rendered automatically on every calculator and recipe page. Each view fires
+  `POST /api/track` with the slug.
+- **Storage** uses Vercel KV when `KV_REST_API_URL` and `KV_REST_API_TOKEN`
+  are set; otherwise it falls back to in-memory counters (per server
+  instance, resets on cold start). Set up KV in Vercel → Storage → Create
+  Database → KV before relying on the widget in production.
+- **Vercel Analytics** + **Speed Insights** are wired via the
+  `@vercel/analytics` and `@vercel/speed-insights` packages — these
+  auto-activate once the project is deployed to Vercel, no env var required.
+
+The hero widget falls back to calculators flagged `trending: true` in
+`lib/calculators.ts` while real counters are warming up.
+
+## Recipes
+
+Recipes live in `lib/recipes.ts` (single source of truth). Adding one:
+
+1. Add an entry to `RECIPES` (see existing entries for shape).
+2. Set `tested: false` until the recipe has been personally cooked. The
+   `TESTED` stamp renders on the hub card and the recipe page only when
+   this flag is flipped to `true`.
+3. Drop hero + ingredients photos at
+   `/public/recipes/{slug}-{hero|ingredients}.jpg` and swap the
+   `placeholderImg(...)` calls in that recipe's entry for `recipeImg(...)`.
+4. Recipe pages auto-emit Schema.org Recipe JSON-LD for Google rich snippets.
+
+See `/public/placeholders/README.md` for the image spec.
+
 ## Deploying to Vercel
 
 1. Push this repo to GitHub

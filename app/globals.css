@@ -1564,3 +1564,56 @@ body[data-theme="country"] .recipe-filter {
   .footer-inner { grid-template-columns: 1fr; }
   .hero-stats { flex-wrap: wrap; gap: 20px; }
 }
+
+/* ============ TESTED STAMP ============
+   Rubber-stamp aesthetic — appears only when a recipe has tested: true.
+   Slightly rotated, two-tone outline, distressed feel. */
+
+.tested-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  padding: 6px 12px 5px;
+  border: 2.5px solid var(--accent-deep);
+  background: transparent;
+  transform: rotate(-4deg);
+  box-shadow: inset 0 0 0 1px var(--accent-deep);
+  user-select: none;
+  white-space: nowrap;
+}
+.tested-stamp::before {
+  content: "✓";
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* Position on recipe-card (hub grid) */
+.recipe-card-link .tested-stamp-card {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  background: var(--cream);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  padding: 5px 10px 4px;
+  transform: rotate(-6deg);
+}
+
+/* Position on recipe page (next to title) */
+.recipe-title-block .tested-stamp-page {
+  margin-left: 12px;
+  vertical-align: middle;
+  font-size: 13px;
+  padding: 7px 14px 6px;
+}
+
+/* Make the recipe-card-link a positioning context so the stamp can absolute */
+.recipe-card-link { position: relative; }
+

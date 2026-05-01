@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer, { FactMarquee } from "@/components/Footer";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: {
@@ -25,6 +27,8 @@ export default function RootLayout({
         {children}
         <FactMarquee />
         <Footer />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

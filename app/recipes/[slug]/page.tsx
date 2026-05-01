@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ThemeBody from "@/components/ThemeBody";
-import { RECIPES, getRecipeBySlug } from "@/lib/recipes";
+import PageViewTracker from "@/components/PageViewTracker";
+import { RECIPES, getRecipeBySlug, type Recipe } from "@/lib/recipes";
 import { getBySlug as getCalc } from "@/lib/calculators";
 
 // Pre-generate routes for all recipes at build time
@@ -18,6 +19,55 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   };
 }
 
+const SITE_ORIGIN = "https://www.blueberrycalculator.com";
+
+// ISO-8601 duration formatter — Schema.org requires durations like PT25M / PT1H20M.
+function toIso8601Duration(human: string): string {
+  // Accept "25 min", "1 hr 20 min", "55 min", "1 hr". Strip stray words.
+  const cleaned = human.toLowerCase().replace(/[^0-9hr min ]/g, "");
+  const hMatch = cleaned.match(/(\d+)\s*hr/);
+  const mMatch = cleaned.match(/(\d+)\s*min/);
+  const h = hMatch ? parseInt(hMatch[1], 10) : 0;
+  const m = mMatch ? parseInt(mMatch[1], 10) : 0;
+  if (!h && !m) return "PT0M";
+  return `PT${h ? `${h}H` : ""}${m ? `${m}M` : ""}`;
+}
+
+function buildRecipeJsonLd(recipe: Recipe) {
+  const url = `${SITE_ORIGIN}/recipes/${recipe.slug}`;
+  const heroAbsolute = recipe.heroImage.startsWith("http")
+    ? recipe.heroImage
+    : `${SITE_ORIGIN}${recipe.heroImage}`;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    name: recipe.title,
+    description: `${recipe.title} — ${recipe.yield}. ${recipe.time.total} total time. ${recipe.difficulty}.`,
+    image: [heroAbsolute],
+    author: {
+      "@type": "Organization",
+      name: "BlueberryCalculator.com",
+      url: SITE_ORIGIN,
+    },
+    recipeCategory: recipe.category,
+    recipeCuisine: "American",
+    keywords: ["blueberry", recipe.category.toLowerCase(), recipe.title.toLowerCase()].join(", "),
+    recipeYield: recipe.yield,
+    prepTime: toIso8601Duration(recipe.time.prep),
+    cookTime: toIso8601Duration(recipe.time.cook),
+    totalTime: toIso8601Duration(recipe.time.total),
+    recipeIngredient: recipe.ingredients.map((ing) => `${ing.amount} ${ing.item}`),
+    recipeInstructions: recipe.steps.map((step, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      text: step,
+    })),
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    url,
+  };
+}
+
 export default function RecipePage({ params }: { params: { slug: string } }) {
   const recipe = getRecipeBySlug(params.slug);
   if (!recipe) notFound();
@@ -26,9 +76,19 @@ export default function RecipePage({ params }: { params: { slug: string } }) {
     ? getCalc(recipe.relatedCalculator)
     : null;
 
+  const jsonLd = buildRecipeJsonLd(recipe);
+
   return (
     <>
       <ThemeBody theme="country" />
+
+      <PageViewTracker slug={`recipe:${recipe.slug}`} />
+
+      {/* Recipe JSON-LD for Google rich snippets */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
       <div className="recipe-page">
         <div className="recipe-breadcrumb">
@@ -38,7 +98,17 @@ export default function RecipePage({ params }: { params: { slug: string } }) {
 
         <div className="recipe-title-block">
           <span className="recipe-category-tag">{recipe.category}</span>
-          <h1>{recipe.title}</h1>
+          <h1>
+            {recipe.title}
+            {recipe.tested && (
+              <span
+                className="tested-stamp tested-stamp-page"
+                aria-label="Kitchen-tested"
+              >
+                Tested
+              </span>
+            )}
+          </h1>
           <div className="recipe-stats">
             <div className="recipe-stat">
               <span className="stat-label">Prep</span>

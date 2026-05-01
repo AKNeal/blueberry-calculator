@@ -23,7 +23,7 @@ export default function Header() {
       <div className="util">
         <div className="util-inner">
           <div>
-            <span className="live">4,281 USERS CALCULATING NOW</span>
+            <span className="live">USDA MEDIAN BERRY · 12.7 mm · 1.5 g</span>
             <span style={{ opacity: 0.6, marginLeft: 16 }}>EST. 2011 · v 14.2.7</span>
           </div>
           <div>

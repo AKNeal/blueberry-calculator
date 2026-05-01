@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#3a1a47" stroke-width="0.6" opacity="0.35"/>
+    </pattern>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1f0a2a"/>
+      <stop offset="100%" stop-color="#2c1339"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#grid)"/>
+
+  <!-- center berry -->
+  <g transform="translate(600 340)">
+    <circle r="80" fill="#4a1d63" stroke="#7a3aa0" stroke-width="2"/>
+    <circle r="80" fill="#5b2477" opacity="0.6"/>
+    <path d="M -8 -78 Q 0 -100 8 -78" fill="none" stroke="#a8d8a0" stroke-width="3"/>
+    <ellipse cx="-22" cy="-30" rx="14" ry="22" fill="#7a3aa0" opacity="0.45"/>
+  </g>
+
+  <text x="600" y="500" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="48" font-weight="700" fill="#ffd76b" letter-spacing="2">
+    REPLACE ME
+  </text>
+  <text x="600" y="555" text-anchor="middle"
+        font-family="ui-monospace, 'SF Mono', Menlo, monospace"
+        font-size="20" fill="#cfa8e6" letter-spacing="1">
+    /public/recipes/{slug}-hero.jpg  ·  1200×800
+  </text>
+  <text x="600" y="595" text-anchor="middle"
+        font-family="ui-monospace, 'SF Mono', Menlo, monospace"
+        font-size="14" fill="#9c79b8" opacity="0.85">
+    Drop the real photo, swap placeholderImg() → recipeImg() in lib/recipes.ts
+  </text>
+</svg>

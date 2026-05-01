@@ -13,6 +13,8 @@ export default function RecipesHub() {
     [filter]
   );
 
+  const testedCount = RECIPES.filter((r) => r.tested).length;
+
   return (
     <>
       <ThemeBody theme="country" />
@@ -24,9 +26,16 @@ export default function RecipesHub() {
             Just the <em>recipes.</em>
           </h1>
           <p>
-            {RECIPES.length} tested blueberry recipes. Ingredients, steps, and two
-            photos. Everything else — pie dish math, muffin scaling, jam yield — lives
-            in the calculators, linked where it matters.
+            {RECIPES.length} blueberry recipes. Ingredients, steps, and two photos.
+            Everything else — pie dish math, muffin scaling, jam yield — lives in the
+            calculators, linked where it matters.
+            {testedCount > 0 && (
+              <>
+                {" "}
+                Recipes carrying the <strong>TESTED</strong> stamp ({testedCount} of{" "}
+                {RECIPES.length}) have been personally tested in our kitchen.
+              </>
+            )}
           </p>
         </div>
       </section>
@@ -53,6 +62,14 @@ export default function RecipesHub() {
       <div className="recipe-hub-grid">
         {visible.map((r) => (
           <Link key={r.slug} href={`/recipes/${r.slug}`} className="recipe-card-link">
+            {r.tested && (
+              <span
+                className="tested-stamp tested-stamp-card"
+                aria-label="Kitchen-tested"
+              >
+                Tested
+              </span>
+            )}
             <div
               className="recipe-card-img"
               style={{ backgroundImage: `url(${r.heroImage})` }}

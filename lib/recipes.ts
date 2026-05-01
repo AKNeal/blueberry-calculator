@@ -21,7 +21,9 @@ export interface Recipe {
     total: string;
   };
   difficulty: "Easy" | "Medium" | "Advanced";
-  // Unsplash image URLs — use source.unsplash.com pattern for stability
+  // Image paths — relative to /public.
+  // Convention: /placeholders/recipes/{slug}-hero.jpg until the real photo is added,
+  // then move to /recipes/{slug}-hero.jpg and update both fields here.
   heroImage: string;
   ingredientsImage: string;
   ingredients: Ingredient[];
@@ -29,6 +31,9 @@ export interface Recipe {
   // Which calculator on the site this pairs with
   relatedCalculator?: string;
   notes?: string[];
+  // Marked true ONLY after Neal has personally tested the recipe in his own kitchen.
+  // When true, the "TESTED" stamp renders on the recipe hub card and recipe page.
+  tested?: boolean;
 }
 
 export type RecipeCategory =
@@ -44,9 +49,24 @@ export const RECIPE_CATEGORIES: RecipeCategory[] = [
   "Baked Goods",
 ];
 
-// Unsplash Source API — stable, free, no key needed, no attribution required
-const img = (query: string, seed: string) =>
-  `https://source.unsplash.com/featured/1200x800/?${encodeURIComponent(query)}&sig=${seed}`;
+// Image path helpers.
+// All recipes currently use a single shared placeholder SVG — the slug+kind
+// arguments are kept in the signature for self-documentation only.
+//
+// Workflow when a real photo arrives:
+//   1. Drop the file at /public/recipes/{slug}-{hero|ingredients}.jpg
+//   2. In that recipe's entry below, swap `placeholderImg("foo", "hero")`
+//      for `recipeImg("foo", "hero")` and the same for ingredients.
+//   3. Commit. The new image will appear on next build.
+//
+// See /public/placeholders/README.md for image specs (1200×800, JPEG, etc.).
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const placeholderImg = (_slug: string, _kind: "hero" | "ingredients") =>
+  `/placeholders/recipe-placeholder.svg`;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const recipeImg = (slug: string, kind: "hero" | "ingredients") =>
+  `/recipes/${slug}-${kind}.jpg`;
 
 export const RECIPES: Recipe[] = [
   // ============ PIES & TARTS ============
@@ -58,8 +78,9 @@ export const RECIPES: Recipe[] = [
     yield: "One 9-inch pie · serves 8",
     time: { prep: "25 min", cook: "55 min", total: "1 hr 20 min + cooling" },
     difficulty: "Medium",
-    heroImage: img("blueberry pie whole baked", "pie1"),
-    ingredientsImage: img("blueberries flour sugar ingredients baking", "pie2"),
+    heroImage: placeholderImg("classic-blueberry-pie", "hero"),
+    ingredientsImage: placeholderImg("classic-blueberry-pie", "ingredients"),
+    tested: false,
     ingredients: [
       { amount: "2 (9-inch)", item: "pie crusts, chilled (homemade or store-bought)" },
       { amount: "6 cups", item: "fresh blueberries", berries: 594 },
@@ -99,8 +120,9 @@ export const RECIPES: Recipe[] = [
     yield: "12 muffins",
     time: { prep: "15 min", cook: "25 min", total: "40 min" },
     difficulty: "Easy",
-    heroImage: img("blueberry muffins bakery", "muf1"),
-    ingredientsImage: img("muffin ingredients flour blueberries butter", "muf2"),
+    heroImage: placeholderImg("blueberry-muffins", "hero"),
+    ingredientsImage: placeholderImg("blueberry-muffins", "ingredients"),
+    tested: false,
     ingredients: [
       { amount: "2 cups", item: "all-purpose flour" },
       { amount: "1 cup", item: "granulated sugar" },
@@ -139,8 +161,9 @@ export const RECIPES: Recipe[] = [
     yield: "About 12 pancakes · serves 4",
     time: { prep: "10 min", cook: "15 min", total: "25 min" },
     difficulty: "Easy",
-    heroImage: img("blueberry pancakes stack syrup", "pan1"),
-    ingredientsImage: img("pancake batter buttermilk flour", "pan2"),
+    heroImage: placeholderImg("blueberry-pancakes", "hero"),
+    ingredientsImage: placeholderImg("blueberry-pancakes", "ingredients"),
+    tested: false,
     ingredients: [
       { amount: "1 1/2 cups", item: "all-purpose flour" },
       { amount: "2 tbsp", item: "granulated sugar" },
@@ -177,8 +200,9 @@ export const RECIPES: Recipe[] = [
     yield: "About 3 cups · three 8-oz jars",
     time: { prep: "10 min", cook: "25 min", total: "35 min" },
     difficulty: "Easy",
-    heroImage: img("blueberry jam jar spoon", "jam1"),
-    ingredientsImage: img("blueberries sugar lemon", "jam2"),
+    heroImage: placeholderImg("blueberry-jam", "hero"),
+    ingredientsImage: placeholderImg("blueberry-jam", "ingredients"),
+    tested: false,
     ingredients: [
       { amount: "2 lb", item: "fresh blueberries (about 6 cups)", berries: 604 },
       { amount: "1 1/2 cups", item: "granulated sugar" },
@@ -211,8 +235,9 @@ export const RECIPES: Recipe[] = [
     yield: "8 scones",
     time: { prep: "15 min", cook: "22 min", total: "37 min" },
     difficulty: "Medium",
-    heroImage: img("blueberry scones pastry", "sco1"),
-    ingredientsImage: img("scone dough flour butter cream", "sco2"),
+    heroImage: placeholderImg("blueberry-scones", "hero"),
+    ingredientsImage: placeholderImg("blueberry-scones", "ingredients"),
+    tested: false,
     ingredients: [
       { amount: "2 1/2 cups", item: "all-purpose flour" },
       { amount: "1/3 cup", item: "granulated sugar" },
@@ -249,8 +274,9 @@ export const RECIPES: Recipe[] = [
     yield: "9×9 pan · serves 8",
     time: { prep: "15 min", cook: "45 min", total: "1 hr" },
     difficulty: "Easy",
-    heroImage: img("blueberry cobbler baking dish", "cob1"),
-    ingredientsImage: img("blueberries butter flour sugar", "cob2"),
+    heroImage: placeholderImg("blueberry-cobbler", "hero"),
+    ingredientsImage: placeholderImg("blueberry-cobbler", "ingredients"),
+    tested: false,
     ingredients: [
       { amount: "6 cups", item: "fresh blueberries", berries: 594 },
       { amount: "3/4 cup", item: "granulated sugar (for filling)" },
