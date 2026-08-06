@@ -41,8 +41,17 @@ export default function Footer() {
           <p>
             The internet's most comprehensive blueberry measurement resource. Calculators
             assume USDA standard median berry dimensions (12.7mm, 1.5g, 1.07cm³).
-            © 2011–2026.
+            © 2026 Neal Media &amp; Production.
           </p>
+        </div>
+        <div className="footer-col">
+          <h4>Guides</h4>
+          <ul>
+            <li><a href="/articles">All Articles</a></li>
+            <li><a href="/articles/how-many-blueberries-in-a-cup">Berries per Cup</a></li>
+            <li><a href="/articles/how-to-freeze-blueberries">Freezing Blueberries</a></li>
+            <li><a href="/articles/how-to-store-fresh-blueberries">Storing Blueberries</a></li>
+          </ul>
         </div>
         <div className="footer-col">
           <h4>Recipes</h4>
@@ -66,17 +75,20 @@ export default function Footer() {
         <div className="footer-col">
           <h4>Site</h4>
           <ul>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Methodology</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">Privacy</a></li>
-            <li><a href="#">Terms</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/methodology">Methodology</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/privacy">Privacy</a></li>
+            <li><a href="/terms">Terms</a></li>
           </ul>
         </div>
       </div>
       <div className="footer-bottom">
-        <span>BlueberryCalculator.com · Made with 🫐 in Portland, OR</span>
-        <span>* "#1 on Google" for "blueberry calculator with 13 calculators" since 2019</span>
+        <span>BlueberryCalculator.com · Published by Neal Media &amp; Production</span>
+        <span>
+          <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> ·{" "}
+          <a href="/contact">Contact</a>
+        </span>
       </div>
     </footer>
   );

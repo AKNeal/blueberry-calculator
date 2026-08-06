@@ -24,13 +24,13 @@ export default function Header() {
         <div className="util-inner">
           <div>
             <span className="live">USDA MEDIAN BERRY · 12.7 mm · 1.5 g</span>
-            <span style={{ opacity: 0.6, marginLeft: 16 }}>EST. 2011 · v 14.2.7</span>
+            <span style={{ opacity: 0.6, marginLeft: 16 }}>FREE · NO SIGN-UP</span>
           </div>
           <div>
-            <a href="#">Sign In</a>
-            <a href="#">Pro Tools</a>
-            <a href="#">API</a>
-            <a href="#">🇺🇸 EN ▾</a>
+            <Link href="/recipes">Recipes</Link>
+            <Link href="/articles">Articles</Link>
+            <Link href="/methodology">Methodology</Link>
+            <Link href="/about">About</Link>
           </div>
         </div>
       </div>
