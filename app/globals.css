@@ -1617,3 +1617,215 @@ body[data-theme="country"] .recipe-filter {
 /* Make the recipe-card-link a positioning context so the stamp can absolute */
 .recipe-card-link { position: relative; }
 
+
+/* ============ DOCUMENT / LEGAL PAGES ============ */
+.doc-page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 34px 24px 70px;
+}
+.doc-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  padding: 44px 52px 52px;
+}
+.doc-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.doc-inner h1 {
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.1;
+  font-weight: 900;
+  color: var(--text);
+  margin: 0 0 10px;
+}
+.doc-updated {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 26px;
+  padding-bottom: 18px;
+  border-bottom: 2px solid var(--border);
+}
+.doc-lede {
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--text);
+  margin: 0 0 30px;
+}
+.doc-inner h2 {
+  font-family: var(--font-display);
+  font-size: 25px;
+  font-weight: 800;
+  color: var(--text);
+  margin: 38px 0 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-soft);
+}
+.doc-inner h3 {
+  font-family: var(--font-body);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 26px 0 8px;
+}
+.doc-inner p {
+  font-size: 15.5px;
+  line-height: 1.72;
+  color: var(--text);
+  margin: 0 0 15px;
+}
+.doc-inner ul {
+  margin: 0 0 18px;
+  padding-left: 22px;
+}
+.doc-inner li {
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--text);
+  margin-bottom: 9px;
+}
+.doc-inner a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.doc-inner a:hover { opacity: 0.75; }
+
+.doc-callout {
+  background: var(--bg-alt);
+  border: 2px solid var(--border);
+  border-left: 5px solid var(--accent);
+  padding: 22px 26px;
+  margin: 26px 0 32px;
+}
+.doc-callout-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.doc-callout-value {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--accent);
+  display: inline-block;
+  margin-bottom: 8px;
+  word-break: break-all;
+}
+.doc-callout p { margin: 0; font-size: 13.5px; color: var(--text-muted); }
+
+.doc-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0 26px;
+  font-size: 14.5px;
+}
+.doc-table th {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  padding: 10px 13px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.doc-table td {
+  border: 1px solid var(--border-soft);
+  padding: 10px 13px;
+  color: var(--text);
+}
+.doc-table tbody tr:nth-child(even) { background: var(--bg-alt); }
+
+@media (max-width: 720px) {
+  .doc-inner { padding: 28px 22px 34px; }
+  .doc-inner h1 { font-size: 31px; }
+  .doc-inner h2 { font-size: 21px; }
+  .doc-lede { font-size: 16.5px; }
+}
+
+/* ============ ARTICLE HUB ============ */
+.article-hub-grid {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+}
+.article-cat-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--text);
+  margin: 0 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 3px solid var(--accent);
+}
+.article-card {
+  display: block;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: 20px 24px;
+  margin-bottom: 14px;
+  text-decoration: none;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+.article-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-lg);
+}
+.article-card h3 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 7px;
+}
+.article-card p {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0 0 12px;
+}
+.article-card-meta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.article-card-cat {
+  background: var(--accent);
+  color: var(--cream);
+  padding: 3px 8px;
+}
+.doc-inner ol {
+  margin: 0 0 18px;
+  padding-left: 22px;
+}
+.doc-inner ol li {
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--text);
+  margin-bottom: 9px;
+}
