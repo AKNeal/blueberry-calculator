@@ -21,21 +21,6 @@ export default function CalculatorPage({ calc, usageCount, tags = [], children }
     <div className="main-layout">
       <PageViewTracker slug={calc.slug} />
       <div>
-        <div className="ad-banner-wrap" style={{ padding: 0, marginBottom: 18 }}>
-          <div className="ad-slot">
-            <div className="ad-inner">
-              <span style={{ fontSize: 26 }}>🫐</span>
-              <div style={{ textAlign: "left" }}>
-                <strong>BerryMaster Pro 5000</strong> — The only kitchen scale
-                calibrated in individual blueberries.
-                <span style={{ color: "var(--text-muted)", fontSize: 12 }}>
-                  &nbsp;Now 24% off →
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <article className="calc-card">
           <div className="calc-head">
             <div>
