@@ -13,9 +13,27 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: { params: { slug: string } }) {
   const recipe = getRecipeBySlug(params.slug);
   if (!recipe) return { title: "Recipe not found" };
+  const desc = `${recipe.title} recipe — ${recipe.yield}. ${recipe.time.total} total. ${recipe.difficulty}.`;
+  const img = recipe.heroImage.startsWith("http")
+    ? recipe.heroImage
+    : `${SITE_ORIGIN}${recipe.heroImage}`;
   return {
     title: recipe.title,
-    description: `${recipe.title} recipe — ${recipe.yield}. ${recipe.time.total} total. ${recipe.difficulty}.`,
+    description: desc,
+    alternates: { canonical: `/recipes/${recipe.slug}` },
+    openGraph: {
+      type: "article",
+      title: recipe.title,
+      description: desc,
+      url: `${SITE_ORIGIN}/recipes/${recipe.slug}`,
+      images: [{ url: img, width: 1200, height: 800, alt: recipe.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: recipe.title,
+      description: desc,
+      images: [img],
+    },
   };
 }
 
@@ -68,6 +86,23 @@ function buildRecipeJsonLd(recipe: Recipe) {
   };
 }
 
+function buildBreadcrumbJsonLd(recipe: Recipe) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_ORIGIN },
+      { "@type": "ListItem", position: 2, name: "Recipes", item: `${SITE_ORIGIN}/recipes` },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: recipe.title,
+        item: `${SITE_ORIGIN}/recipes/${recipe.slug}`,
+      },
+    ],
+  };
+}
+
 export default function RecipePage({ params }: { params: { slug: string } }) {
   const recipe = getRecipeBySlug(params.slug);
   if (!recipe) notFound();
@@ -88,6 +123,13 @@ export default function RecipePage({ params }: { params: { slug: string } }) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {/* Breadcrumb JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(buildBreadcrumbJsonLd(recipe)),
+        }}
       />
 
       <div className="recipe-page">
