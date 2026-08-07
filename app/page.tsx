@@ -8,6 +8,7 @@ import {
 } from "@/lib/calculators";
 import { RECIPES } from "@/lib/recipes";
 import { ARTICLES } from "@/lib/articles";
+import { SITE } from "@/lib/site";
 import ThemeBody from "@/components/ThemeBody";
 import { getTopTrending } from "@/lib/telemetry";
 
@@ -49,6 +50,37 @@ export default async function Home() {
   return (
     <>
       <ThemeBody theme="country" />
+
+      {/* Site-level structured data: Organization + WebSite with search action */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Organization",
+                "@id": `${SITE.url}/#organization`,
+                name: SITE.name,
+                url: SITE.url,
+                description:
+                  "Free blueberry measurement calculators and recipes, based on USDA reference data.",
+                email: SITE.email,
+                publishingPrinciples: `${SITE.url}/methodology`,
+                foundingDate: String(SITE.launched),
+              },
+              {
+                "@type": "WebSite",
+                "@id": `${SITE.url}/#website`,
+                url: SITE.url,
+                name: SITE.name,
+                publisher: { "@id": `${SITE.url}/#organization` },
+                inLanguage: "en-US",
+              },
+            ],
+          }),
+        }}
+      />
 
       {/* Hero */}
       <section className="hero">
