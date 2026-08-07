@@ -7,6 +7,7 @@ import {
   type Calculator,
 } from "@/lib/calculators";
 import { RECIPES } from "@/lib/recipes";
+import { ARTICLES } from "@/lib/articles";
 import ThemeBody from "@/components/ThemeBody";
 import { getTopTrending } from "@/lib/telemetry";
 
@@ -49,26 +50,10 @@ export default async function Home() {
     <>
       <ThemeBody theme="country" />
 
-      {/* Top banner ad */}
-      <div className="ad-banner-wrap">
-        <div className="ad-slot">
-          <div className="ad-inner">
-            <span style={{ fontSize: 28 }}>🫐</span>
-            <div style={{ textAlign: "left" }}>
-              <strong>BerryMaster Pro 5000</strong> — The only kitchen scale
-              calibrated in individual blueberries.{" "}
-              <span style={{ color: "var(--text-muted)", fontSize: 12 }}>
-                Now 24% off →
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Hero */}
       <section className="hero">
         <div className="hero-main">
-          <div className="hero-eyebrow">▸ The Definitive Resource Since 2011</div>
+          <div className="hero-eyebrow">▸ Free Blueberry Calculators &amp; Recipes</div>
           <h1>
             Every blueberry. <em>Calculated.</em>
           </h1>
@@ -83,16 +68,16 @@ export default async function Home() {
               <div className="label">Calculators</div>
             </div>
             <div className="hero-stat">
-              <div className="num">1.2B</div>
-              <div className="label">Berries Counted</div>
+              <div className="num">{RECIPES.length}</div>
+              <div className="label">Recipes</div>
             </div>
             <div className="hero-stat">
-              <div className="num">14yr</div>
-              <div className="label">Serving Bakers</div>
+              <div className="num">{ARTICLES.length}</div>
+              <div className="label">Guides</div>
             </div>
             <div className="hero-stat">
-              <div className="num">#1</div>
-              <div className="label">On Google*</div>
+              <div className="num">Free</div>
+              <div className="label">No Sign-Up</div>
             </div>
           </div>
         </div>
