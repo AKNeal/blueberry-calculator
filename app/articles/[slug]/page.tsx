@@ -18,7 +18,22 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   return {
     title: article.title,
     description: article.dek,
-    alternates: { canonical: `${SITE.url}/articles/${article.slug}` },
+    alternates: { canonical: `/articles/${article.slug}` },
+    openGraph: {
+      type: "article",
+      title: article.title,
+      description: article.dek,
+      url: `${SITE.url}/articles/${article.slug}`,
+      publishedTime: article.published,
+      modifiedTime: article.updated ?? article.published,
+      images: [{ url: "/recipes/classic-blueberry-pie-hero.jpg", width: 1200, height: 800, alt: article.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.dek,
+      images: ["/recipes/classic-blueberry-pie-hero.jpg"],
+    },
   };
 }
 
@@ -56,6 +71,25 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(buildArticleJsonLd(article)) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: SITE.url },
+              { "@type": "ListItem", position: 2, name: "Articles", item: `${SITE.url}/articles` },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: article.title,
+                item: `${SITE.url}/articles/${article.slug}`,
+              },
+            ],
+          }),
+        }}
       />
 
       <main className="doc-page">
